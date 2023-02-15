@@ -1,0 +1,54 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~@ng-select/ng-select/themes/default.theme.css";
+
+.marginAccordion {
+  margin-top: 2%
+}
+
+.map {
+  width: 100%;
+  min-height: 50vh;
+  height: 0;
+
+}
+
+agm-map {
+  height: 100%;
+  width: 100%;
+}
+
+.status-color-1 {
+  background-color: #6c757d;
+}
+
+.status-color-2 {
+  background-color: #ff7b00;
+}
+
+.status-color-3 {
+  background-color: #198754;
+}
+
+.status-color-4 {
+  background-color: #dc3545;
+}
+
+.status-color-5 {
+  background-color: #0d6efd;
+}
+
+.status-color-6 {
+  background-color: #8f1089;
+}
+
+.status-color-7 {
+  background-color: #bb0505;
+}
+
+.status-color-8 {
+  background-color: #025a38;
+}
+
+.status-color-9 {
+  background-color: #ff0000;
+}

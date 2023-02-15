@@ -1,0 +1,57 @@
+.row {
+  --bs-gutter-x: 1.5rem !important;
+
+  --bs-gutter-x: 1.5rem !important;
+}
+
+table {
+  width: 100%;
+}
+
+.mat-mdc-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+td,
+th {
+  width: auto;
+  padding: 10px;
+}
+
+th {
+  font-weight: bold;
+}
+
+.catalog img {
+  border-radius: 5px;
+  max-width: 60px;
+}
+
+.mat-item {
+  margin: 10px;
+}
+
+.form-switch {
+  padding-top: 4%;
+  padding-left: 3em !important
+}
+
+.example-sidenav-content {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.example-sidenav {
+  padding: 20px;
+}
+
+.product-image-detail{
+  max-width: 150px;
+}
+
+tr.example-element-row:not(.example-expanded-row):hover {
+  background: whitesmoke;
+}

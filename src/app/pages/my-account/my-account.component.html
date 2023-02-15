@@ -1,0 +1,438 @@
+<main id="main" class="main">
+  <div class="pagetitle">
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a>Inicio</a></li>
+        <li class="breadcrumb-item active">Mi cuenta</li>
+      </ol>
+    </nav>
+    <div class="card">
+      <div class="card-header text-center">Mi cuenta</div>
+      <div class="card-body">
+        <div class="row m-2">
+          <div class="col-md-6 mb-2">
+            <label class="form-label"><strong>Nombre: </strong></label>
+            <input type="text" class="form-control" value="{{ infoMarket.businessName }}" readonly>
+          </div>
+          <div class="col-md-6 mb-2">
+            <label class="form-label"><strong>Dirección: </strong></label>
+            <input type="text" class="form-control" value="{{ infoMarket.address }}" readonly>
+          </div>
+          <div class="col-md-6 mb-2">
+            <label class="form-label"><strong>Tipo de documento: </strong></label>
+            <input type="text" class="form-control" value="{{ infoMarket.documentType }}" readonly>
+          </div>
+          <div class="col-md-6 mb-2">
+            <label class="form-label"><strong>Número de documento: </strong></label>
+            <input type="text" class="form-control" value="{{ infoMarket.documentNumber }}" readonly>
+          </div>
+        </div>
+        <ul class="nav nav-tabs" id="myTab" role="tablist" style="margin-top: 2%">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane"
+              type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">
+              Ajustes de cuenta
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane"
+              type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">
+              Métodos de pago
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="configure-tab" data-bs-toggle="tab" data-bs-target="#configure-tab-pane"
+              type="button" role="tab" aria-controls="configure-tab-pane" aria-selected="false">
+              Configuración de horarios
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="users-tab" data-bs-toggle="tab" data-bs-target="#users-tab-pane" type="button"
+              role="tab" aria-controls="configure-tab-pane" aria-selected="false">
+              Usuarios
+            </button>
+          </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+          <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab"
+            tabindex="0">
+            <form class="row g-3 marginAccordion">
+              <div class="col-md-6">
+                <label for="inputEmail4" class="form-label">Correo electrónico</label>
+                <input type="email" class="form-control" id="inputEmail4" [(ngModel)]="arrayMarket.email"
+                  [ngModelOptions]="{ standalone: true }" />
+              </div>
+              <div class="col-md-6">
+                <label for="inputPassword4" class="form-label">Celular</label>
+                <input type="number" class="form-control" id="inputPhone" [(ngModel)]="arrayMarket.phone"
+                  [ngModelOptions]="{ standalone: true }" />
+              </div>
+              <div class="col-md-6 form-check form-switch" style="padding-top: 4%; padding-left: 3em !important">
+                <label class="form-label" for="flexSwitchCheckDefault">Temporalmente cerrado</label>
+                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault"
+                  [(ngModel)]="arrayMarket.temporaryClosed" [ngModelOptions]="{ standalone: true }" />
+              </div>
+              <div class="col-md-6">
+                <label for="inputState" class="form-label">Categoría</label>
+                <select id="inputState" class="form-select" [value]="infoMarket.categoryName"
+                  [(ngModel)]="arrayMarket.marketCategoryId" [ngModelOptions]="{ standalone: true }">
+                  <option selected>Seleccione...</option>
+                  <option selected *ngFor="let item of listCategories" [value]="item.id">
+                    {{ item.categoryName }}
+                  </option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label for="inputState" class="form-label">Estado</label>
+                <select id="inputState" class="form-select" [(ngModel)]="arrayMarket.isActive"
+                  [ngModelOptions]="{ standalone: true }">
+                  <option selected>Seleccione...</option>
+                  <option [value]="true">Activo</option>
+                  <option [value]="false">Inactivo</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label for="inputDeliveryCoverage" class="form-label">Cobertura de entrega (Kilómetros)</label>
+                <input type="number" class="form-control" id="inputDeliveryCoverage"
+                  [(ngModel)]="arrayMarket.deliveryCoverage" [ngModelOptions]="{ standalone: true }" />
+              </div>
+              <div class="col-md-6">
+                <label for="inputPassword4" class="form-label">Costo de envio</label>
+                <input type="decimal" class="form-control" id="inputShippingCost" [(ngModel)]="arrayMarket.shippingCost"
+                  [ngModelOptions]="{ standalone: true }" />
+              </div>
+              <div class="col-md-6">
+                <label for="inputPassword4" class="form-label">Cantidad máxima de pedidos concurrentes</label>
+                <input type="number" class="form-control" id="inputMaxConcurrentOrder"
+                  [(ngModel)]="arrayMarket.maxConcurrentOrder" [ngModelOptions]="{ standalone: true }" />
+              </div>
+              <div class="col-md-6">
+                <label for="inputApproximateDeliveryTime" class="form-label">Tiempo aproximado de entrega (Minutos)</label>
+                <input type="number" class="form-control" id="inputApproximateDeliveryTime"
+                  [(ngModel)]="arrayMarket.approximateDeliveryTime" [ngModelOptions]="{ standalone: true }" />
+              </div>
+              <div class="input-group col-12">
+                <span class="input-group-text" id="basic-addon1">Latitud</span>
+                <input type="text" class="form-control" aria-label="latitude" [value]="lat" disabled />
+
+                <span class="input-group-text" id="basic-addon1">Longitud</span>
+                <input type="text" class="form-control" aria-label="longitude" [value]="lng" disabled />
+                <button class="btn btn-outline-secondary" type="button" id="button-addon2" (click)="getLocation(true)">
+                  Consultar dirección
+                  <i class="bi bi-geo-alt"></i>
+                </button>
+              </div>
+              <div class="map">
+                <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" [disableDefaultUI]="false"
+                  [zoomControl]="false" (mapClick)="mapClicked($event)" [scrollwheel]="false">
+                  <agm-marker [latitude]="lat" [longitude]="lng" [markerDraggable]="true">
+                  </agm-marker>
+
+                  <agm-circle [latitude]="lat + 0.1" [longitude]="lng" [radius]="5000" [fillColor]="'red'"
+                    [circleDraggable]="true" [editable]="true">
+                  </agm-circle>
+                </agm-map>
+              </div>
+            </form>
+          </div>
+          <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+            <form class="row g-3 marginAccordion">
+              <div class="col-md-6">
+                <label for="inputState" class="form-label">Método de pago</label>
+                <select id="inputState" class="form-select" [(ngModel)]="paymentMethods"
+                  [ngModelOptions]="{ standalone: true }" (ngModelChange)="changePaymentMethods($event)">
+                  <option selected>Seleccione...</option>
+                  <option selected *ngFor="let item of listPaymentMethods" [value]="item.id">
+                    {{ item.paymentName }}
+                  </option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label for="inputState" class="form-label">Banco</label>
+                <select id="inputState" class="form-select" [(ngModel)]="bank" [ngModelOptions]="{ standalone: true }"
+                  [disabled]="disabledPaymentMethods">
+                  <option selected>Seleccione...</option>
+                  <option [disabled]="disabledPaymentMethods" selected *ngFor="let item of listBanks" [value]="item.id">
+                    {{ item.bankName }}
+                  </option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label for="inputState" class="form-label">Tipo de cuenta</label>
+                <select id="inputState" class="form-select" [(ngModel)]="accountType"
+                  [ngModelOptions]="{ standalone: true }" [disabled]="disabledPaymentMethods">
+                  <option selected>Seleccione...</option>
+                  <option selected *ngFor="let item of listBankAccountTypes" [value]="item.id">
+                    {{ item.accountTypeName }}
+                  </option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label for="inputNumber" class="form-label">Número de cuenta</label>
+                <input [disabled]="disabledPaymentMethods" type="number" class="form-control" id="inputNumber"
+                  [(ngModel)]="accountNumber" [ngModelOptions]="{ standalone: true }" />
+              </div>
+              <div class="col-12">
+                <button type="submit" class="btn btn-primary" (click)="addPaymentMethods()">
+                  Agregar
+                </button>
+              </div>
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th scope="col">Método de pago</th>
+                    <th scope="col">Banco</th>
+                    <th scope="col">Tipo de cuenta</th>
+                    <th scope="col">Número de cuenta</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of listTablePaymentMethods">
+                    <td scope="col">{{ item.paymentName }}</td>
+                    <td scope="col">{{ item.bankName }}</td>
+                    <td scope="col">{{ item.accountTypeName }}</td>
+                    <td scope="col">{{ item.accountNumber }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </form>
+          </div>
+          <div class="tab-pane fade" id="configure-tab-pane" role="tabpanel" aria-labelledby="configure-tab"
+            tabindex="0">
+            <form class="row marginAccordion">
+              <div class="mb-3 row">
+                <label for="inputMonday" class="col-sm-2 col-form-label"><strong>Lunes</strong></label>
+                <div class="col-sm-4">
+                  <label for="">Desde</label>
+                  <input type="time" class="form-control" id="inputMonday" [(ngModel)]="toMonday"
+                    [ngModelOptions]="{ standalone: true }" />
+                </div>
+                <div class="col-sm-4">
+                  <label for="">Hasta</label>
+                  <input type="time" class="form-control" id="inputMonday" [(ngModel)]="fromMonday"
+                    [ngModelOptions]="{ standalone: true }" (change)="modalCopySchedules()" />
+                </div>
+              </div>
+              <div class="mb-3 row">
+                <label for="inputTuesday" class="col-sm-2 col-form-label"><strong>Martes</strong></label>
+                <div class="col-sm-4">
+                  <label for="">Desde</label>
+                  <input type="time" class="form-control" id="inputTuesday" [(ngModel)]="toTuesday"
+                    [ngModelOptions]="{ standalone: true }" />
+                </div>
+                <div class="col-sm-4">
+                  <label for="">Hasta</label>
+                  <input type="time" class="form-control" id="inputTuesday" [(ngModel)]="fromTuesday"
+                    [ngModelOptions]="{ standalone: true }" />
+                </div>
+              </div>
+              <div class="mb-3 row">
+                <label for="inputWednesday" class="col-sm-2 col-form-label"><strong>Miércoles</strong></label>
+
+                <div class="col-sm-4">
+                  <label for="">Desde</label>
+                  <input type="time" class="form-control" id="inputWednesday" [(ngModel)]="toWednesday"
+                    [ngModelOptions]="{ standalone: true }" />
+                </div>
+                <div class="col-sm-4">
+                  <label for="">Hasta</label>
+                  <input type="time" class="form-control" id="inputWednesday" [(ngModel)]="fromWednesday"
+                    [ngModelOptions]="{ standalone: true }" />
+                </div>
+              </div>
+              <div class="mb-3 row">
+                <label for="inputThursday" class="col-sm-2 col-form-label"><strong>Jueves</strong></label>
+                <div class="col-sm-4">
+                  <label for="">Desde</label>
+                  <input type="time" class="form-control" id="inputThursday" [(ngModel)]="toThursday"
+                    [ngModelOptions]="{ standalone: true }" />
+                </div>
+                <div class="col-sm-4">
+                  <label for="">Hasta</label>
+                  <input type="time" class="form-control" id="inputThursday" [(ngModel)]="fromThursday"
+                    [ngModelOptions]="{ standalone: true }" />
+                </div>
+              </div>
+              <div class="mb-3 row">
+                <label for="inputFriday" class="col-sm-2 col-form-label"><strong>Viernes</strong></label>
+                <div class="col-sm-4">
+                  <label for="">Desde</label>
+                  <input type="time" class="form-control" id="inputFriday" [(ngModel)]="toFriday"
+                    [ngModelOptions]="{ standalone: true }" />
+                </div>
+                <div class="col-sm-4">
+                  <label for="">Hasta</label>
+                  <input type="time" class="form-control" id="inputFriday" [(ngModel)]="fromFriday"
+                    [ngModelOptions]="{ standalone: true }" />
+                </div>
+              </div>
+              <div class="mb-3 row">
+                <label for="inputSaturday" class="col-sm-2 col-form-label"><strong>Sábado</strong></label>
+                <div class="col-sm-4">
+                  <label for="">Desde</label>
+                  <input type="time" class="form-control" id="inputSaturday" [(ngModel)]="toSaturday"
+                    [ngModelOptions]="{ standalone: true }" />
+                </div>
+                <div class="col-sm-4">
+                  <label for="">Hasta</label>
+                  <input type="time" class="form-control" id="inputSaturday" [(ngModel)]="fromSaturday"
+                    [ngModelOptions]="{ standalone: true }" />
+                </div>
+              </div>
+              <div class="mb-3 row">
+                <label for="inputSunday" class="col-sm-2 col-form-label"><strong>Domingo</strong></label>
+                <div class="col-sm-4">
+                  <label for="">Desde</label>
+                  <input type="time" class="form-control" id="inputSunday" [(ngModel)]="toSunday"
+                    [ngModelOptions]="{ standalone: true }" />
+                </div>
+                <div class="col-sm-4">
+                  <label for="">Hasta</label>
+                  <input type="time" class="form-control" id="inputSunday" [(ngModel)]="fromSunday"
+                    [ngModelOptions]="{ standalone: true }" />
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="gridCheck" />
+                  <label class="form-check-label" for="gridCheck">
+                    ¿Trabaja los festivos?
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-12" style="text-align: center" *ngIf="!saveAllAccount">
+                <button type="submit" class="btn btn-primary" (click)="saveTime()">
+                  Guardar horarios
+                </button>
+              </div>
+              <div class="col-12" style="text-align: center" *ngIf="saveAllAccount">
+                <button type="submit" class="btn btn-primary" (click)="saveAccount()">
+                  Guardar
+                </button>
+              </div>
+            </form>
+          </div>
+          <div class="tab-pane fade" id="users-tab-pane" role="tabpanel" aria-labelledby="users-tab" tabindex="0">
+            <div class="card-body pb-0">
+
+              <div class="row mt-2 mb-4">
+                <div class="col-12">
+                  <div class="input-group mb-2">
+                    <input class="form-control" matInput (keyup)="applyFilter($event)" placeholder="Buscar por nombre"
+                      #input>
+                    <div class="input-group-append">
+                      <button mat-button class="btn btn-outline-primary" type="button" (click)="openDialog()">
+                        <i class="bi bi-person-plus"></i>
+                        <span> Agregar</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-12">
+                  <table mat-table [dataSource]="dataSource" matSort matSortActive="userName" matSortDirection="asc">
+
+                    <!-- Name Column -->
+                    <ng-container matColumnDef="name">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </th>
+                      <td mat-cell *matCellDef="let row">
+                        {{row.userName}} </td>
+                    </ng-container>
+
+                    <!-- Phone Column -->
+                    <ng-container matColumnDef="phone">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header> Móvil </th>
+                      <td mat-cell *matCellDef="let row">
+                        {{row.phone}} </td>
+                    </ng-container>
+
+                    <!-- Rol Column -->
+                    <ng-container matColumnDef="rol">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header> Rol</th>
+                      <td mat-cell *matCellDef="let row">
+                        {{row.rolId | replaceRol}} </td>
+                    </ng-container>
+
+                    <!-- Status Column -->
+                    <ng-container matColumnDef="status">
+                      <th mat-header-cell *matHeaderCellDef> Estado</th>
+                      <td mat-cell *matCellDef="let row">
+                        {{row.isActive ? 'Activo' : 'Inactivo'}}
+                      </td>
+                    </ng-container>
+
+                    <!-- Status Column -->
+                    <ng-container matColumnDef="actions">
+                      <th mat-header-cell *matHeaderCellDef> Acciones</th>
+                      <td mat-cell *matCellDef="let row">
+                        <button class="btn btn-outline-primary btn-sm" (click)="openDialog(row.id)">
+                          <i class="bi bi-pencil-square"></i> Editar
+                        </button>
+                      </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="example-element-row"></tr>
+
+                    <!-- Row shown when there is no matching data. -->
+                    <tr class="mat-row" *matNoDataRow>
+                      <td class="mat-cell" colspan="4">{{input.value ? "No se encontraron coincidencias para: " +
+                        input.value : "Cargando...."}}</td>
+                    </tr>
+                  </table>
+
+                  <mat-paginator #scheduledOrdersPaginator [pageSizeOptions]="[10, 30, 100]"
+                    aria-label="Select page of users"></mat-paginator>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- start modal form users -->
+  <div class="modal fade" id="modalChangeRequest" tabindex="-1" aria-labelledby="modalChangeRequestLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="modalChangeRequestLabel">
+            Sugerir cambio
+          </h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form novalidate>
+            <div class="mb-3">
+              <label for="product-name" class="col-form-label">Nombre del producto:</label>
+              <input type="text" class="form-control" id="product-name" reuired />
+              <div class="invalid-feedback">
+                Nombre del producto obligatorio.
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="product-price" class="col-form-label">Precio del producto:</label>
+              <input type="number" class="form-control" id="product-price" required />
+              <div class="invalid-feedback">
+                Precio del producto obligatorio.
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-primary" data-dismiss="modal" type="submit">
+                <i class="bi bi-save"></i> Guardar
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- end modal form users -->
+
+</main>

@@ -1,0 +1,388 @@
+<main id="main" class="main">
+  <div class="pagetitle">
+    <h1>Detalle de pedido</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a>Inicio</a></li>
+        <li class="breadcrumb-item active">
+          <a routerLink="/order">Pedidos</a>
+        </li>
+      </ol>
+    </nav>
+  </div>
+  <section class="section dashboard">
+    <ul class="nav nav-tabs" id="myTab" role="tablist" style="margin-top: 2%">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#customer-summary-tab-pane"
+          type="button" role="tab" aria-controls="customer-summary-tab-pane" aria-selected="true">
+          Resumen cliente
+        </button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#detail-order-tab-pane"
+          type="button" role="tab" aria-controls="detail-order-tab-pane" aria-selected="false">
+          Detalle de pedido
+        </button>
+      </li>
+    </ul>
+
+    <div class="tab-content" id="myTabContent">
+      <div class="tab-pane fade show active" id="customer-summary-tab-pane" role="tabpanel" aria-labelledby="home-tab"
+        tabindex="0">
+        <div class="col-md-12 marginAccordion">
+          <div class="card border-info">
+            <div class="card-header">
+              <div class="row">
+                <div class="col-md-6">
+                  Pedido N° {{ ordersDetailList.orderNumber }}
+                </div>
+                <div class="col-md-6">
+                  <span class="badge status-color-{{ordersDetailList.orderStatusId}}">{{
+                    ordersDetailList.orderStatusId | replaceStatus
+                    }}</span>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-6">
+                  <span class="card-text"><strong>Cliente:</strong>
+                    {{ ordersDetailList.clientName }}</span>
+                </div>
+                <div class="col-md-6">
+                  <span class="card-text"><strong>Observaciones: </strong>
+                    {{ ordersDetailList.comments }}</span>
+                </div>
+                <div class="col-md-6">
+                  <span class="card-text" data-toggle="tooltip" data-placement="bottom"
+                    title="Días/Mes/Año"><strong>Fecha: </strong>
+                    {{ ordersDetailList.createdAt | date: "d/M/yy" }}</span>
+                </div>
+                <div class="col-md-6">
+                  <span class="card-text"><strong>Costo de envío: </strong>
+                    {{
+                    ordersDetailList.shippingCost
+                    | currency: "USD":"symbol":"1.0-0"
+                    }}</span>
+                </div>
+                <div class="col-md-6">
+                  <span class="card-text"><strong>Dirección: </strong>
+                    {{ ordersDetailList.clientLocation?.address }}</span>
+                </div>
+                <div class="col-md-6">
+                  <span class="card-text"><strong>Referencia dirección: </strong>{{
+                    ordersDetailList.clientLocation?.aditionalData }}</span>
+                </div>
+                <div class="col-md-6">
+                  <span class="card-text"><strong>Método de pago: </strong>
+                    {{ ordersDetailList.paymentMethodName }}</span>
+                </div>
+              </div>
+
+              <div class="map">
+                <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" [disableDefaultUI]="false"
+                  [zoomControl]="false" [scrollwheel]="false">
+                  <agm-marker [latitude]="lat" [longitude]="lng" [markerDraggable]="false">
+                  </agm-marker>
+
+                  <agm-circle [latitude]="lat + 0.1" [longitude]="lng" [fillColor]="'red'" [circleDraggable]="false"
+                    [editable]="false">
+                  </agm-circle>
+                </agm-map>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-pane fade" id="detail-order-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+
+        <!-- Detalle de pedido -->
+        <mat-drawer-container class="example-container" autosize>
+          <mat-drawer #drawer class="example-sidenav" mode="over" position="end" (closed)="getDetailOrders()">
+            <app-add-product [orderId]="orderId" (sidenav)="drawer.toggle()"></app-add-product>
+          </mat-drawer>
+          <div class="row">
+            <div class="col-12">
+              <div class="card top-selling overflow-auto">
+                <div class="filter" *ngIf="!isInactiveOrder">
+                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                    <li class="dropdown-header text-start">
+                      <h6>Acciones</h6>
+                    </li>
+                    <li>
+                      <button (click)="openManageResponsibly()" class="dropdown-item"><i class="bi bi-person-check"></i>
+                        Gestionar responsable</button>
+                      <span *ngIf="ordersDetailList.orderStatusId != 1">
+                        <button class="dropdown-item" (click)="drawer.toggle()"><i class="bi bi-cart-plus"></i> Agregar
+                          producto</button>
+                        <button class="dropdown-item" (click)="changePaymentMethod()">
+                          <i class="bi bi-wallet2"></i> Cambiar método de pago
+                        </button>
+                        <button class="dropdown-item" (click)="sendOrderSummary()"><i class="bi bi-card-list"></i>
+                          Enviar
+                          resumen de pedido</button>
+                        <button class="dropdown-item" (click)="sendPaymentInformation()"><i
+                            class="bi bi-currency-dollar"></i> Enviar información de
+                          pago</button>
+                      </span>
+
+                    </li>
+                  </ul>
+                </div>
+                <div class="card-body pb-0">
+                  <h5 class="card-title"><span>Detalle del pedido</span></h5>
+                  <table class="table table-borderless">
+                    <thead>
+                      <tr>
+                        <th scope="col">Imagen</th>
+                        <th scope="col">Producto</th>
+                        <th scope="col">Cantidad</th>
+                        <th scope="col">Precio unitario</th>
+                        <th scope="col">Estado</th>
+                        <th scope="col">Acciones</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of ordersDetailList.orderDetails">
+                        <th scope="row">
+                          <a><img src="{{ item.productImage }}" alt="" /></a>
+                        </th>
+                        <td>
+                          <span class="text-primary fw-bold">{{item.productName}}</span>
+                        </td>
+                        <td>{{ item.productQuantity }}</td>
+                        <td>
+                          {{item.productPrice| currency: "USD":"symbol":"1.0-0"}}
+                        </td>
+                        <td>
+                          {{item.productStatusId | replaceStatusProduct}}
+                        </td>
+                        <td>
+                          <div *ngIf="item.productStatusId === 1 && ordersDetailList.orderStatusId === 2">
+                            <button type="button" class="btn btn-success btn-sm buttonStatus" data-toggle="tooltip"
+                              data-placement="bottom" title="Aceptar"
+                              (click)="changeStatusProduct(ordersDetailList.id, item.id,ordersDetailList.orderStatusId, 2, item)">
+                              <i class="bi bi-check2-all"></i>
+                            </button>
+                            <button type="button" class="btn btn-info btn-sm buttonStatus" data-toggle="tooltip"
+                              data-placement="bottom" title="Solicitud de cambio"
+                              (click)="openSuggetsChange(ordersDetailList.orderStatusId, item)">
+                              <i class="bi bi-arrow-left-right"></i>
+                            </button>
+                            <button type="button" class="btn btn-danger btn-sm buttonStatus" data-toggle="tooltip"
+                              data-placement="bottom" title="Rechazar"
+                              (click)="changeStatusProduct(ordersDetailList.id, item.id,ordersDetailList.orderStatusId, 3, item)">
+                              <i class="bi bi-x-circle"></i>
+                            </button>
+                          </div>
+                          <div *ngIf="item.productStatusId === 4">
+                            <button type="button" class="btn btn-success btn-sm buttonStatus" data-toggle="tooltip"
+                              data-placement="bottom" title="Cambio aceptado"
+                              (click)="changeStatusProduct(ordersDetailList.id, item.id,ordersDetailList.orderStatusId, 5, item)">
+                              <i class="bi bi-check2-all"></i>
+                            </button>
+                            <button type="button" class="btn btn-danger btn-sm buttonStatus" data-toggle="tooltip"
+                              data-placement="bottom" title="Cambio rechazado"
+                              (click)="changeStatusProduct(ordersDetailList.id, item.id,ordersDetailList.orderStatusId, 6, item)">
+                              <i class="bi bi-x-circle"></i>
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <td colspan="3" *ngIf="ordersDetailList.orderStatusId === 2">
+                          <button type="button" class="btn btn-primary btn-sm m-2" (click)="changePaymentStatus()"
+                            *ngIf="!paymentStatus">
+                            Cambiar a pagado
+                          </button>
+                          <button type="button" class="btn btn-danger btn-sm m-2" (click)="changePaymentStatus()"
+                            *ngIf="paymentStatus">
+                            Cambiar a NO pagado
+                          </button>
+                          <button type="button" class="btn btn-success btn-sm m-2" (click)="dispatchOrder()"
+                            *ngIf="dispatchStatus">
+                            Despachar
+                          </button>
+                          <button type="button" class="btn btn-danger btn-sm m-2" (click)="cancelOrder()">
+                            Cancelar
+                          </button>
+                        </td>
+                        <td colspan="3" *ngIf="ordersDetailList.orderStatusId === 5">
+                          <button type="button" class="btn btn-success btn-sm m-2" (click)="deliveredOrder()">
+                            Entregado
+                          </button>
+                          <button type="button" class="btn btn-danger btn-sm" (click)="undeliveredOrder()">
+                            No entregado
+                          </button>
+                        </td>
+                        <td colspan="2" *ngIf="ordersDetailList.orderStatusId !== 2"></td>
+                        <td>
+                          <strong>TOTAL: </strong>{{ ordersDetailList.totalPurchase | currency: "USD":"symbol":"1.0-0"
+                          }}
+                        </td>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </mat-drawer-container>
+      </div>
+    </div>
+  </section>
+
+  <!-- Modal  Chat-->
+  <div class="modal fade bd-example-modal-lg" id="exampleModalScrollable" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalScrollableTitle" aria-hidden="true" style="z-index: 1900">
+    <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Chat - {{ ordersDetailList.clientName }}</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" id="viewChat">
+          <div class="container">
+            <div class="row clearfix">
+              <div class="col-lg-12">
+                <div class="card chat-app">
+                  <div class="chat">
+                    <div class="chat-history">
+                      <ul class="m-b-0" *ngFor="let item of historyChatList">
+                        <li class="clearfix">
+                          <div class="message-data-time">{{item.createAt | date: "d/M/yy, h:mm a":"GMT"}}</div>
+
+                          <!-- Text -->
+                          <div class="message" *ngIf="item.messageType === TypeMessage.text"
+                            [ngClass]="item.options.customClass">
+                            {{ item.body }}
+                          </div>
+                          <!-- Image -->
+                          <img [src]="item.body" alt="" *ngIf="item.messageType === TypeMessage.image"
+                            [ngClass]="item.options.customClass" [height]="item.options.height"
+                            [width]="item.options.width">
+
+                          <!-- Audio -->
+                          <audio *ngIf="item.messageType === TypeMessage.audio" [ngClass]="item.options.customClass"
+                            controls>
+                            <source [src]="item.body" type="audio/webm">
+                          </audio>
+
+                          <!-- Document -->
+                          <div class="message message-box-document" *ngIf="item.messageType === TypeMessage.document"
+                            [ngClass]="item.options.customClass">
+                            Documento
+                            <a [href]="item.body" target="_blank" rel="noopener noreferrer">
+                              <i class="bi bi-file-earmark-arrow-down" style="font-size: 35px;"></i>
+                            </a>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                    <form [formGroup]="chatForm">
+                      <div class="chat-message clearfix">
+                        <div class="input-group mb-2" *ngIf="!showInputFile && !showInputAudio">
+                          <!-- Button Active Files -->
+                          <div class="input-group-prepend" (click)="showInputFile = true">
+                            <span class="input-group-text">
+                              <i class="bi bi-link-45deg"></i>
+                            </span>
+                          </div>
+                          <!-- Button Active Audio -->
+                          <div class="input-group-prepend" (click)="startRecording()">
+                            <span class="input-group-text">
+                              <i class="bi bi-mic"></i>
+                            </span>
+                          </div>
+                          <!-- Button Active Image -->
+                          <div class="input-group-prepend" (click)="showModalTakePhoto()">
+                            <span class="input-group-text">
+                              <i class="bi bi-camera"></i>
+                            </span>
+                          </div>
+                          <!-- Input Message -->
+                          <input type="text" formControlName="message" class="form-control"
+                            placeholder="Escribe un mensaje aquí..." id="inputChat" name="inputChat"
+                            (keyup.enter)="getChatWA()" />
+                          <!-- Button Send Message -->
+                          <div class="input-group-append" *ngIf="!showInputFile">
+                            <button class="btn btn-outline-primary" type="button" (click)="getChatWA()">
+                              <i class="bi bi-send"></i>
+                            </button>
+                          </div>
+                        </div>
+
+                        <div *ngIf="submitted && f.message.errors" class="invalid-feedback">
+                          <div *ngIf="f.message.errors.required">Mensaje es obligatorio</div>
+                        </div>
+                        <!-- Input Multimedia -->
+                        <div *ngIf="showInputFile" class="input-group">
+                          <div class="input-group-prepend" (click)="showInputFile = false">
+                            <span class="input-group-text">
+                              <i class="bi bi-trash"></i>
+                            </span>
+                          </div>
+                          <input #inputFile type="file" class="form-control" id="inputFile" accept="{{allowTypes}}"
+                            (change)="onFileChange($event)">
+                          <div class="input-group-append">
+                            <button class="btn btn-outline-primary" type="button" (click)="saveFile()">
+                              <i class="bi bi-send"></i>
+                            </button>
+                          </div>
+                        </div>
+                        <!-- <div *ngIf="invalidFile" class="invalid-feedback">
+                          <div>El archivo selecionado no es válido</div>
+                        </div> -->
+
+                        <!-- Input Audio -->
+                        <div *ngIf="showInputAudio" class="input-group">
+                          <div class="input-group-prepend" (click)="showInputAudio = false">
+                            <span class="input-group-text">
+                              <i class="bi bi-trash"></i>
+                            </span>
+                          </div>
+                          <input type="text" class="form-control" readonly [value]="audioRecordedTime"
+                            *ngIf="recordingStarted">
+                          <audio *ngIf="!recordingStarted && audioBlobURL" controls style="width: 75%;">
+                            <source [src]="audioBlobURL" type="audio/webm">
+                          </audio>
+                          <div class="input-group-append">
+                            <button class="btn btn-outline-primary" type="button" (click)="stopRecording()"
+                              *ngIf="recordingStarted">
+                              <i class="bi bi-pause"></i>
+                            </button>
+                            <button class="btn btn-outline-primary" type="button" (click)="sendAudio()"
+                              *ngIf="!recordingStarted">
+                              <i class="bi bi-send"></i>
+                            </button>
+                          </div>
+                        </div>
+
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" [(ngModel)]="isCloseMsgChat"
+                          [ngModelOptions]="{ standalone: true }" [value]="true" />
+                        <label class="form-check-label" for="inputChatCheck" id="inputChatCheck">
+                          Finalizar chat
+                        </label>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- end Modal Chat -->
+
+  <a (click)="openModal()" class="button__whatsapp d-flex align-items-center justify-content-center"
+    title="Abrir chat"><i class="bi bi-whatsapp"></i></a>
+
+</main>

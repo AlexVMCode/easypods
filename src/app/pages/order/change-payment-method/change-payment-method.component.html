@@ -1,0 +1,27 @@
+<form [formGroup]="paymentMethodForm" (ngSubmit)="savePaymentMethod()">
+    <!-- <h1 mat-dialog-title>Método de pago</h1> -->
+    <mat-dialog-content>
+
+        <div class="row">
+            <div class="form-group col-12 mb-2">
+                <label class="form-label">Actualizar método de pago</label>
+                <select class="form-control" formControlName="payMethodId" id="payMethodId"
+                    [ngClass]="{ 'is-invalid': submitted && f.payMethodId.errors }">
+                    <option *ngFor="let item of paymentMethods" value="{{ item.id }}">{{ item.paymentName }}</option>
+                </select>
+                <div *ngIf="submitted && f.payMethodId.errors" class="invalid-feedback">
+                    <div *ngIf="f.payMethodId.errors.required">Método de pago es obligatorio</div>
+                </div>
+            </div>
+        </div>
+    </mat-dialog-content>
+    <mat-dialog-actions align='center'>
+        <div class="row">
+            <div class="col-12 text-center">
+                <button type="button" (click)="closeDialog()" mat-button mat-dialog-close
+                    class="btn btn-outline-danger btn-sm m-2">Cerrar</button>
+                <button type="submit" mat-button class="btn btn-outline-primary btn-sm m-2">Guardar</button>
+            </div>
+        </div>
+    </mat-dialog-actions>
+</form>

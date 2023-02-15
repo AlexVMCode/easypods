@@ -1,0 +1,143 @@
+<main id="main" class="main">
+  <div class="pagetitle">
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a>Inicio</a></li>
+        <li class="breadcrumb-item active">Catálogo</li>
+      </ol>
+    </nav>
+
+    <mat-drawer-container class="example-container" autosize>
+      <mat-drawer #drawer class="example-sidenav" mode="over" position="end">
+
+        <div class="card">
+          <div class="card-header mb-2">
+            Detalle de producto
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-12 mb-2 text-center">
+                <img class="product-image-detail" src="{{selectedProduct.image}}" alt="Imagen no disponible">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12 mb-2">
+                <label class="form-label">Nombre: </label>
+                <input type="text" class="form-control" value="{{selectedProduct.name}}" readonly>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12 mb-2">
+                <label class="form-label">Marca: </label>
+                <input type="text" class="form-control" value="{{selectedProduct.brand}}" readonly>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12 mb-2">
+                <label class="form-label">Precio: </label>
+                <input type="text" class="form-control" value="{{selectedProduct.price | currency:'COP '}}" readonly>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12 mb-2">
+                <label class="form-label">Cantidad: </label>
+                <input type="text" class="form-control" value="{{selectedProduct.availableQuantity}}" readonly>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12 mb-2">
+                <label class="form-label">Descripción: </label>
+                <textarea type="text" class="form-control" readonly>{{selectedProduct.description}}</textarea>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12 mb-2">
+                <label class="form-label">Estado: </label>
+                <input type="text" class="form-control"
+                  value="{{selectedProduct.checkSelected ? 'Activo' : 'Inactivo'}}" readonly>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12 mb-2 text-center">
+                <button type="button" class="btn btn-secondary" (click)="drawer.toggle()">Cerrar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-drawer>
+      <div class="card catalog overflow-auto">
+        <div class="card-header text-center">Catálogo de productos</div>
+        <div class="card-body pb-0">
+          <div class="row mt-2 mb-4">
+            <div class="col-12">
+              <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-label>Filtrar productos</mat-label>
+                <input matInput #input (keyup)="applyFilter($event)" placeholder="Buscar por nombre o marca">
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12">
+
+              <table mat-table [dataSource]="dataSource" matSort matSortActive="name" matSortDirection="asc">
+
+                <!-- Image Column -->
+                <ng-container matColumnDef="image">
+                  <th mat-header-cell *matHeaderCellDef> Imagen </th>
+                  <td mat-cell *matCellDef="let row"><img class="mat-item" src="{{row.image}}" alt="N/A"
+                      (click)="setDataDrawer(row.id)"></td>
+                </ng-container>
+
+                <!-- Name Column -->
+                <ng-container matColumnDef="name">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </th>
+                  <td mat-cell *matCellDef="let row" (click)="setDataDrawer(row.id)">
+                    {{row.name}} </td>
+                </ng-container>
+
+                <!-- Brand Column -->
+                <ng-container matColumnDef="brand">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Marca </th>
+                  <td mat-cell *matCellDef="let row" (click)="setDataDrawer(row.id)">
+                    {{row.brand}} </td>
+                </ng-container>
+
+                <!-- Price Column -->
+                <ng-container matColumnDef="price">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Precio</th>
+                  <td mat-cell *matCellDef="let row" (click)="setDataDrawer(row.id)">
+                    {{row.price | currency:'COP '}} </td>
+                </ng-container>
+
+                <!-- Status Column -->
+                <ng-container matColumnDef="status">
+                  <th mat-header-cell *matHeaderCellDef> Estado</th>
+                  <td mat-cell *matCellDef="let row">
+                    <div class="col-md-6 form-check form-switch">
+                      <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheck"
+                        [checked]="row.checkSelected" (click)="changeStateProduct(row.id, !row.checkSelected)" />
+                    </div>
+                  </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="example-element-row"></tr>
+
+                <!-- Row shown when there is no matching data. -->
+                <tr class="mat-row" *matNoDataRow>
+                  <td class="mat-cell" colspan="4">{{input.value ? "No se encontraron coincidencias para: " +
+                    input.value : "Cargando...."}}</td>
+                </tr>
+              </table>
+
+              <mat-paginator #scheduledOrdersPaginator [pageSizeOptions]="[10, 30, 100]"
+                aria-label="Select page of users"></mat-paginator>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-drawer-container>
+  </div>
+</main>

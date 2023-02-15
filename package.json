@@ -1,0 +1,53 @@
+{
+  "name": "easy-pods",
+  "version": "1.0.0",
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build --base-href=/EasyPodsDev/",
+    "build:qa": "ng build --base-href=/ --configuration development",
+    "watch": "ng build --watch --configuration development",
+    "test": "ng test"
+  },
+  "private": true,
+  "dependencies": {
+    "@agm/core": "^1.0.0",
+    "@angular/animations": "^14.0.0",
+    "@angular/cdk": "^14.2.7",
+    "@angular/common": "^14.0.0",
+    "@angular/compiler": "^14.0.0",
+    "@angular/core": "^14.0.0",
+    "@angular/forms": "^14.0.0",
+    "@angular/material": "^14.2.7",
+    "@angular/platform-browser": "^14.0.0",
+    "@angular/platform-browser-dynamic": "^14.0.0",
+    "@angular/router": "^14.0.0",
+    "@ffmpeg/core": "^0.11.0",
+    "@ffmpeg/ffmpeg": "^0.11.6",
+    "@ng-select/ng-select": "^9.0.2",
+    "moment": "^2.29.4",
+    "ngx-pagination": "^6.0.2",
+    "ngx-spinner": "^14.0.0",
+    "ngx-webcam": "^0.4.1",
+    "recordrtc": "^5.6.2",
+    "rxjs": "~7.5.0",
+    "sweetalert2": "^11.4.33",
+    "tslib": "^2.3.0",
+    "zone.js": "~0.11.4"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "^14.0.3",
+    "@angular/cli": "~14.0.3",
+    "@angular/compiler-cli": "^14.0.0",
+    "@types/jasmine": "~4.0.0",
+    "@types/node": "^18.13.0",
+    "@types/recordrtc": "^5.6.10",
+    "jasmine-core": "~4.1.0",
+    "karma": "~6.3.0",
+    "karma-chrome-launcher": "~3.1.0",
+    "karma-coverage": "~2.2.0",
+    "karma-jasmine": "~5.0.0",
+    "karma-jasmine-html-reporter": "~1.7.0",
+    "typescript": "~4.7.2"
+  }
+}

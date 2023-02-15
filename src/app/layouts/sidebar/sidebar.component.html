@@ -1,0 +1,46 @@
+<aside id="sidebar" class="sidebar">
+  <ul class="sidebar-nav" id="sidebar-nav">
+    <li class="nav-item" *ngIf="showHome">
+      <a class="nav-link" routerLink="/home">
+        <i class="bi bi-grid"></i> <span>Inicio</span>
+      </a>
+    </li>
+    <li class="nav-item" *ngIf="showAccount">
+      <a class="nav-link" routerLink="/account">
+        <i class="bi bi-person"></i> <span>Mi cuenta</span>
+      </a>
+    </li>
+    <li class="nav-item" *ngIf="showOrder">
+      <a class="nav-link" routerLink="/order">
+        <i class="bi bi-list-check"></i> <span>Pedidos</span>
+      </a>
+    </li>
+    <li class="nav-item" *ngIf="showCatalog">
+      <a class="nav-link" routerLink="/catalog">
+        <i class="bi bi-cart3"></i> <span>Catálogo</span>
+      </a>
+    </li>
+    <!--<li class="nav-item">
+      <a
+        class="nav-link collapsed"
+        data-bs-target="#components-nav"
+        data-bs-toggle="collapse"
+        href="#"
+      >
+        <i class="bi bi-menu-button-wide"></i><span>Menú</span
+        ><i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul
+        id="components-nav"
+        class="nav-content collapse"
+        data-bs-parent="#sidebar-nav"
+      >
+        <li>
+          <a routerLink="/alerts">
+            <i class="bi bi-circle"></i><span>Submenú</span>
+          </a>
+        </li>
+      </ul>
+    </li> -->
+  </ul>
+</aside>

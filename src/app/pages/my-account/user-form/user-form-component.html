@@ -1,0 +1,54 @@
+
+  <form [formGroup]="userForm" (ngSubmit)="saveUser()">
+    <h1 mat-dialog-title>Detalle de usuario</h1>
+    <mat-dialog-content>
+      <div class="row">
+        <div class="form-group col-12 mb-2">
+          <label class="form-label">Nombre</label>
+          <input type="text" formControlName="username" class="form-control"
+            [ngClass]="{ 'is-invalid': submitted && f.username.errors }" required />
+          <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+            <div *ngIf="f.username.errors.required">Nombre es obligatorio</div>
+          </div>
+        </div>
+        <div class="form-group col-12 mb-2">
+          <label class="form-label">Celular</label>
+          <input type="text" formControlName="phone" class="form-control"
+            [ngClass]="{ 'is-invalid': submitted && f.phone.errors }" />
+          <div *ngIf="submitted && f.phone.errors" class="invalid-feedback">
+            <div *ngIf="f.phone.errors.required">Celular es obligatorio</div>
+          </div>
+        </div>
+        <div class="form-group col-12 mb-2">
+          <label class="form-label">Roles</label>
+          <select class="form-control" formControlName="rolId" id="rolId"
+            [ngClass]="{ 'is-invalid': submitted && f.rolId.errors }">
+            <option value="">Seleccione...</option>
+            <option *ngFor="let item of roles" value="{{ item.id }}">{{ item.name }}</option>
+          </select>
+          <div *ngIf="submitted && f.rolId.errors" class="invalid-feedback">
+            <div *ngIf="f.rolId.errors.required">Rol es obligatorio</div>
+          </div>
+        </div>
+        <div class="form-group col-12 mb-2">
+          <label class="form-label">Estado</label>
+          <select class="form-control" formControlName="isActive" id="isActive"
+            [ngClass]="{ 'is-invalid': submitted && f.isActive.errors }">
+            <option value=true>Activo</option>
+            <option value=false>Inactivo</option>
+          </select>
+          <div *ngIf="submitted && f.isActive.errors" class="invalid-feedback">
+            <div *ngIf="f.isActive.errors.required">Estado es obligatorio</div>
+          </div>
+        </div>
+      </div>
+    </mat-dialog-content>
+    <mat-dialog-actions align='center'>
+      <div class="row">
+        <div class="col-12 text-center">
+          <button mat-button mat-dialog-close class="btn btn-outline-danger btn-sm m-2">Cerrar</button>
+          <button mat-button class="btn btn-outline-primary btn-sm m-2">Guardar</button>
+        </div>
+      </div>
+    </mat-dialog-actions>
+  </form>

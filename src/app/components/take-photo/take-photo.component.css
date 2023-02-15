@@ -1,0 +1,25 @@
+.actionBtn {
+    font-size: 2em;
+    cursor: pointer;
+    float: right;
+}
+
+.snapshot {
+    text-align: center;
+}
+
+.snapshot img,
+img,
+video {
+    max-width: 800px;
+    max-height: 800px;
+}
+
+ul.links {
+    padding-bottom: 20px;
+}
+
+.buttonRepeat,
+.buttonSend {
+    margin-top: 3% !important;
+}

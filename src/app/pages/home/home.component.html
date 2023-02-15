@@ -1,0 +1,309 @@
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h1 class="d-inline">Dashboard |</h1><span class="text-danger"><i class="bi bi-dot"></i> En vivo </span>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a routerLink="/">Inicio</a></li>
+                <li class="breadcrumb-item active">Dashboard</li>
+            </ol>
+        </nav>
+    </div>
+    <section class="section dashboard">
+        <div class="row">
+            <div class="col-12">
+                <div class="card card-info">
+                    <div class="card-body">
+                        <h5 class="card-title">Filtros de pedidos</h5>
+                        <form [formGroup]="reportForm" (ngSubmit)="getReport()">
+                            <div class="row mb-2">
+                                <div class="col-4">
+                                    <mat-form-field appearance="outline" style="width: 100%;">
+                                        <mat-label>Filtrar por fechas</mat-label>
+                                        <mat-date-range-input [rangePicker]="picker">
+                                            <input matStartDate formControlName="startDate" placeholder="Fecha inicio">
+                                            <input matEndDate formControlName="endDate" placeholder="Fecha fin">
+                                        </mat-date-range-input>
+                                        <mat-hint>Cuando no hay un rango de fechas seleccionadas los datos corresponden
+                                            al día actual.</mat-hint>
+                                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                        <mat-date-range-picker #picker></mat-date-range-picker>
+                                        <mat-error
+                                            *ngIf="reportForm.controls['startDate'].hasError('matDatepickerParse')">
+                                            Fecha inicio no es válida
+                                        </mat-error>
+                                        <mat-error
+                                            *ngIf="reportForm.controls['startDate'].hasError('matDatepickerParse')">
+                                            Fecha fin no es válida
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-4">
+                                    <mat-form-field appearance="outline" style="width: 100%;">
+                                        <mat-label>Máximo tiempo en verde</mat-label>
+                                        <input matInput formControlName="greenMin" placeholder="Tiempo en minutos">
+                                        <mat-icon matSuffix class="text-success">
+                                            <i class="bi bi-clock-history"></i>
+                                        </mat-icon>
+                                        <mat-hint>Tiempo máximo de pedidos en verde</mat-hint>
+                                        <mat-error *ngIf="reportForm.controls['greenMin'].hasError('pattern')">
+                                            Solo se permiten números
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-4">
+                                    <mat-form-field appearance="outline" style="width: 100%;">
+                                        <mat-label>Máximo tiempo en amarillo</mat-label>
+                                        <input matInput formControlName="yellowMin" placeholder="Tiempo en minutos">
+                                        <mat-icon matSuffix class="text-warning">
+                                            <i class="bi bi-clock-history"></i>
+                                        </mat-icon>
+                                        <mat-hint>Tiempo máximo de pedidos en amarillo</mat-hint>
+                                        <mat-error *ngIf="reportForm.controls['yellowMin'].hasError('pattern')">
+                                            Solo se permiten números
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <div class="d-inline-block m-2">
+                                        <button type="submit" class="btn btn-outline-primary btn-sm">
+                                            <i class="bi bi-funnel"></i> Filtrar
+                                        </button>
+                                    </div>
+                                    <div class="d-inline-block m-2">
+                                        <button type="button" class="btn btn-outline-primary btn-sm"
+                                            (click)="resetForm()">
+                                            <i class="bi bi-trash"></i> Limpiar
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+
+            <!-- TOTAL PEDIDOS -->
+            <div class="col-4">
+                <div class="card info-card sales-card">
+                    <!-- <div class="filter">
+                        <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                            <li class="dropdown-header text-start">
+                                <h6>Filter</h6>
+                            </li>
+                            <li><a class="dropdown-item" href="#">Today</a></li>
+                            <li><a class="dropdown-item" href="#">This Month</a></li>
+                            <li><a class="dropdown-item" href="#">This Year</a></li>
+                        </ul>
+                    </div> -->
+                    <div class="card-body">
+                        <h5 class="card-title">Pedidos activos
+                            <!-- <span>| Hoy</span> -->
+                        </h5>
+                        <div class="d-flex align-items-center">
+                            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                <i class="bi bi-cart"></i>
+                            </div>
+                            <div class="ps-3">
+                                <h6>{{reportData.activeOrders}}</h6>
+                                <!-- <span class="text-success small pt-1 fw-bold">12%</span>
+                                <span class="text-muted small pt-2 ps-1">increase</span> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- VALOR TOTAL PEDIDOS -->
+            <div class="col-4">
+                <div class="card info-card sales-card">
+                    <div class="card-body">
+                        <h5 class="card-title">Valor total pedidos
+                        </h5>
+                        <div class="d-flex align-items-center">
+                            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                <i class="bi bi-currency-dollar"></i>
+                            </div>
+                            <div class="ps-3">
+                                <h6>{{reportData.totalPurchase | currency}}</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- VALOR TOTAL PEDIDOS -->
+            <div class="col-4">
+                <div class="card info-card sales-card">
+                    <div class="card-body">
+                        <h5 class="card-title">Valor total envíos
+                        </h5>
+                        <div class="d-flex align-items-center">
+                            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                <i class="bi bi-truck"></i>
+                            </div>
+                            <div class="ps-3">
+                                <h6>{{reportData.totalShippingCost | currency}}</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="row">
+            <!-- SEMAFORO -->
+            <div class="col-12">
+                <div class="card info-card customers-card">
+                    <div class="card-body">
+                        <h5 class="card-title">Semáforo <span>| Tiempos de atención de pedidos</span></h5>
+                        <div class="row">
+                            <div class="col-4">
+                                <div class="d-flex align-items-center">
+                                    <div
+                                        class="card-icon rounded-circle d-flex align-items-center justify-content-center text-success">
+                                        <i class="bi bi-hourglass-top"></i>
+                                    </div>
+                                    <div class="ps-3">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <h6 class="d-inline-block">{{reportData.greenQuantity}}</h6>
+                                                <span class="btn btn-outline-primary btn-sm float-right"
+                                                    (click)="openDialog(reportData.green,null,null)">
+                                                    <i class="bi bi-search"></i></span>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <span class="small pt-1">Menor de {{greenMin}} min</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="d-flex align-items-center">
+                                    <div
+                                        class="card-icon rounded-circle d-flex align-items-center justify-content-center text-warning">
+                                        <i class="bi bi-hourglass-split"></i>
+                                    </div>
+                                    <div class="ps-3">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <h6 class="d-inline-block">{{reportData.yellowQuantity}}</h6>
+                                                <span class="btn btn-outline-primary btn-sm float-right"
+                                                    (click)="openDialog(reportData.yellow,null,null)">
+                                                    <i class="bi bi-search"></i></span>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <span class="small pt-1">Entre {{greenMin}} - {{yellowMin}} min</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="d-flex align-items-center">
+                                    <div
+                                        class="card-icon rounded-circle d-flex align-items-center justify-content-center text-danger">
+                                        <i class="bi bi-hourglass-bottom"></i>
+                                    </div>
+                                    <div class="ps-3">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <h6 class="d-inline-block">{{reportData.redQuantity}}</h6>
+                                                <span class="btn btn-outline-primary btn-sm float-right"
+                                                    (click)="openDialog(reportData.red,null,null)">
+                                                    <i class="bi bi-search"></i></span>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <span class="small pt-1">Mayor de {{yellowMin}} min</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <!-- PEDIDOS POR ESTADO -->
+            <div class="col-8">
+                <div class="card top-selling overflow-auto">
+                    <div class="card-body pb-0">
+                        <h5 class="card-title">Pedidos por estado</h5>
+                        <table class="table table-borderless">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Estado</th>
+                                    <th scope="col">Pedidos</th>
+                                    <th scope="col">Total</th>
+                                    <th scope="col">Envío</th>
+                                    <th scope="col">Detalle</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of reportData.ordersByState">
+                                    <td><span class="badge status-color-{{item.statusId}}">{{item.statusName}}</span>
+                                    </td>
+                                    <td class="fw-bold">{{item.quantity}}</td>
+                                    <td class="fw-bold">{{item.totalPurchase | currency}}</td>
+                                    <td class="fw-bold">{{item.shippingCost | currency}}</td>
+                                    <td><button type="button" class="btn btn-outline-primary btn-sm"
+                                            (click)="openDialog(null,item.statusId,null)">
+                                            <i class="bi bi-search"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr *ngIf="reportData.ordersByState.length == 0">
+                                    <td colspan="3" class="text-center">No se encontraron pedidos</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pedidos por asignación -->
+            <div class="col-4">
+                <div class="card top-selling overflow-auto">
+                    <div class="card-body pb-0">
+                        <h5 class="card-title">Pedidos por asignación</h5>
+                        <table class="table table-borderless">
+                            <thead>
+                                <tr>
+                                    <th scope="col"> Nombre</th>
+                                    <th scope="col">Pedidos</th>
+                                    <th scope="col">Detalle</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of reportData.ordersByAssignment">
+                                    <td>{{item.userName}}</td>
+                                    <td class="fw-bold">{{item.quantity}}</td>
+                                    <td><button type="button" class="btn btn-outline-primary btn-sm"
+                                            (click)="openDialog(null,null,item.userName)">
+                                            <i class="bi bi-search"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr *ngIf="reportData.ordersByAssignment.length == 0">
+                                    <td colspan="3" class="text-center">No se encontraron pedidos</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>

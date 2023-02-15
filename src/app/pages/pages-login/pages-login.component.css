@@ -1,0 +1,69 @@
+.fnQTe {
+  position: relative;
+  width: 19px;
+  height: 19px;
+  -webkit-box-flex: 0;
+  flex-grow: 0;
+  margin: 0px 5px 0px 0px !important;
+  display: inline !important;
+}
+
+.faSNil {
+  display: flex;
+  flex-direction: row;
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  align-items: center;
+}
+
+.ksYvtZ[type="tel"] {}
+
+@media (min-width: 834px) {
+
+  .ksYvtZ {
+    width: 44px;
+  }
+
+}
+
+@media (min-width: 320px) {
+
+  .ksYvtZ {
+    width: 39px;
+    margin: 10px;
+  }
+}
+
+.ksYvtZ {
+  height: 48px;
+    font-size: 14px;
+    font-weight: 300;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.71;
+    letter-spacing: normal;
+    text-align: center;
+    box-sizing: border-box;
+    color: #2e2c36;
+    background-color: #f7f8f9;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 1px solid #0b5ed7;
+    padding: 10px;
+    caret-color: #0b5ed7;
+    margin-left: 16px;
+}
+.verificationTitle {
+  font-size: 48px;
+  font-family: Goldplay-Bold;
+  font-weight: initial;
+  line-height: 1.21;
+  letter-spacing: normal;
+  color: rgb(46, 44, 54);
+}
+.buttonSpace{
+  margin-top: 14%;
+  text-align: center;
+}

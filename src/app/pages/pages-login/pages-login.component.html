@@ -1,0 +1,167 @@
+<main>
+  <div class="container">
+    <section
+      class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4"
+    >
+      <div class="container">
+        <div class="row justify-content-center">
+          <div
+            class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center"
+          >
+            <div class="d-flex justify-content-center py-4">
+              <a routerLink="/" class="logo d-flex align-items-center w-auto">
+                <img src="assets/img/logo.png" alt="" />
+                <span class="d-none d-lg-block">EasyPODS</span>
+              </a>
+            </div>
+            <div class="card mb-3">
+              <div class="card-body">
+                <div class="pt-4 pb-2">
+                  <h5 class="card-title text-center pb-0 fs-4">
+                    Iniciar sesión
+                  </h5>
+                </div>
+                <form class="row g-3 needs-validation" novalidate>
+                  <div
+                    class="col-12"
+                    *ngIf="!isLoggin"
+                    style="text-align: center"
+                  >
+                    <label for="yourUsername" class="form-label"
+                      >Ingrese su número de celular</label
+                    >
+                    <div class="input-group has-validation" *ngIf="!isLoggin">
+                      <span class="input-group-text" id="inputGroupPrepend"
+                        ><img src="../../../assets/img/co.webp" class="fnQTe" />
+                        <span>+57</span></span
+                      >
+                      <input
+                        type="tel"
+                        pattern="[0-9]*"
+                        name="phone"
+                        class="form-control"
+                        id="yourUsername"
+                        [(ngModel)]="phone"
+                        [ngModelOptions]="{ standalone: true }"
+                        required
+                        data-toggle="tooltip"
+                        data-placement="bottom"
+                        title="Digite el número sin espacios"
+                      />
+                      <div class="invalid-feedback">
+                        Escriba su número de teléfono
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12" *ngIf="!isLoggin">
+                    <button
+                      type="button"
+                      class="btn btn-primary w-100"
+                      (click)="login()"
+                      data-toggle="tooltip"
+                      data-placement="bottom"
+                      title="Se enviará un código a su Whatsapp"
+                    >
+                      <i class="bi bi-whatsapp"></i> Whatsapp
+                    </button>
+                  </div>
+                  <div *ngIf="isLoggin" style="text-align: center !important">
+                    <span class="card-title text-center pb-0 fs-2"
+                      >Verificar código</span
+                    >
+                    <div style="margin-top: 10%">
+                      <span
+                        >Te enviamos un código al: <br />
+                        <strong>+57 {{ phone }}</strong></span
+                      >
+                    </div>
+
+                    <div
+                      role="form"
+                      aria-label="InputContainer"
+                      class="styles__InputContainer-sc-u0fw2b-1 faSNil"
+                    >
+                      <input
+                        type="tel"
+                        name="validationinput0"
+                        inputmode="numeric"
+                        id="validationinput0"
+                        class="ksYvtZ"
+                        [(ngModel)]="input1"
+                        [maxlength]="1"
+                      /><input
+                        type="tel"
+                        name="validation-input1"
+                        inputmode="numeric"
+                        id="validation-input1"
+                        class="ksYvtZ"
+                        [maxLength]="1"
+                        [(ngModel)]="input2"
+                      /><input
+                        type="tel"
+                        name="validation-input-2"
+                        inputmode="numeric"
+                        id="validation-input-2"
+                        class="ksYvtZ"
+                        [maxLength]="1"
+                        [(ngModel)]="input3"
+                      /><input
+                        type="tel"
+                        name="validation-input-3"
+                        inputmode="numeric"
+                        id="validation-input-3"
+                        class="ksYvtZ"
+                        [maxLength]="1"
+                        [(ngModel)]="input4"
+                      />
+                    </div>
+                    <button
+                      type="button"
+                      class="btn btn-primary w-100 buttonSpace"
+                      (click)="validateOTP()"
+                    >
+                      Validar
+                    </button>
+                    <div class="buttonSpace">
+                      <span>Tu código vence en: {{ displayTime }}</span>
+                    </div>
+                  </div>
+                  <div *ngIf="isLoggin" class="row buttonSpace">
+                    <div class="col-12">
+                      <p class="small mb-0">
+                        ¿No te llegó nada?
+                        <a routerLink="/#" (click)="resendCode()">
+                          Reenviar código</a
+                        >
+                      </p>
+                    </div>
+                    <div class="col-12">
+                      <p class="small mb-0">
+                        ¿Este no es tu número?
+                        <a routerLink="/#" (click)="resendCode()">
+                          Cambiar número</a
+                        >
+                      </p>
+                    </div>
+                  </div>
+                  <div class="col-12" *ngIf="!isLoggin">
+                    <p class="small mb-0">
+                      ¿Aún no te has registrado?
+                      <a
+                        [routerLink]="['/#']"
+                        routerLinkActive="router-link-active"
+                        (click)="messageRegister()"
+                      >
+                        Regístrate aquí</a
+                      >
+                    </p>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>

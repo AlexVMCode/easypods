@@ -1,0 +1,49 @@
+<mat-dialog-content>
+    <div class="row" *ngIf="showWebcam">
+        <div class="col-sm-12 col-md-12">
+            <div class="row">
+                <div class="col-sm-12 col-md-12">
+                    <h5 class="card-title d-inline-block">Capturar imagen</h5>
+                    <div class="actionBtn" (click)="triggerSnapshot();" title="Tomar foto">
+                        📸
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 col-md-12">
+                    <webcam [trigger]="triggerObservable" (imageCapture)="handleImage($event)"
+                        [allowCameraSwitch]="allowCameraSwitch" [switchCamera]="nextWebcamObservable"
+                        [videoOptions]="videoOptions" (cameraSwitched)="cameraWasSwitched($event)"
+                        (initError)="handleInitError($event)">
+                    </webcam>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" *ngIf="!showWebcam">
+        <div class="col-sm-12 col-md-12">
+            <div class="row">
+                <div class="col-sm-12 col-md-12">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6 col-md-8">
+                            <h5 class="card-title d-inline-block">Capturar imagen</h5>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 col-md-4 text-center">
+                            <button class="btn btn-sm btn-outline-primary m-1 buttonRepeat" (click)="toggleWebcam()">
+                                <i class="bi bi-trash"></i> Repetir
+                            </button>
+                            <button class="btn btn-sm btn-outline-primary m-1 buttonSend" (click)="getUrlImage()">
+                                <i class="bi bi-send"></i> Enviar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 col-md-12">
+                    <img [src]="imageModel.ImageBase64" alt="Image">
+                </div>
+            </div>
+        </div>
+    </div>
+</mat-dialog-content>

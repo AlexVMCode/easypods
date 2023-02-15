@@ -1,0 +1,100 @@
+<div class="card">
+  <div class="card-header mb-2">
+    Agregar producto
+  </div>
+  <div class="card-body">
+    <form [formGroup]="productForm" (ngSubmit)="saveProduct()">
+      <div class="row">
+        <!-- Image -->
+        <div class="col-12 mb-2 text-center" *ngIf="product.image != ''">
+          <img class="product-image-detail" src="{{product.image}}" alt="Imagen no disponible">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="input-group mb-2" *ngIf="!showInputFile && product.image == ''">
+          <!-- Button Active Files -->
+          <div class="input-group-prepend" (click)="showInputFile = true">
+            <span class="btn btn-outline-primary btn-sm m-2 input-group-text">
+              <i class="bi bi-link-45deg">Cargar imagen</i>
+            </span>
+          </div>
+          <!-- Button Active Image -->
+          <div class="input-group-prepend" (click)="showModalTakePhoto()">
+            <span class="btn btn-outline-primary btn-sm m-2 input-group-text">
+              <i class="bi bi-camera">Tomar foto</i>
+            </span>
+          </div>
+        </div>
+
+        <!-- Input Multimedia -->
+        <div *ngIf="showInputFile" class="input-group">
+          <div class="input-group-prepend" (click)="showInputFile = false">
+            <span class="input-group-text" *ngIf="product.name == ''">
+              <i class="bi bi-trash"></i>
+            </span>
+          </div>
+          <input #inputFile type="file" *ngIf="product.name == ''" class="form-control" id="inputFile"
+            accept="{{allowTypes}}" (change)="onFileChange($event)">
+          <div class="input-group-append">
+            <button class="btn btn-outline-primary" type="button" *ngIf="product.name == ''" (click)="saveFile()"
+              [disabled]="file == null">
+              <i class="bi accept">Cargar</i>
+            </button>
+          </div>
+          <div *ngIf="typeFile == null" class="invalid-feedback invalid-name-product">
+            <div>El tipo de archivo no es permitido, por favor seleccione una imagen.</div>
+          </div>
+        </div>
+      </div>
+      <br>
+
+      <div class="row">
+        <!-- Name -->
+        <div class="form-group col-12 mb-2">
+          <label class="form-label">Producto</label>
+          <mat-form-field appearance="fill">
+            <input type="text" class="form-control" placeholder="Seleccionar producto" aria-label="Number" matInput
+              formControlName="name" [matAutocomplete]="auto" (focusout)="changeProduct()">
+            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="changeProduct()">
+              <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                {{option}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+          <div *ngIf="submitted && f.name.errors" class="invalid-feedback invalid-name-product">
+            <div *ngIf="f.name.errors.required">Producto es obligatorio</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <!-- Price -->
+        <div class="form-group col-12 mb-2">
+          <label class="form-label">Precio</label>
+          <input type="text" formControlName="price" class="form-control"
+            [ngClass]="{ 'is-invalid': submitted && f.price.errors }" [value]="product.price" />
+          <div *ngIf="submitted && f.price.errors" class="invalid-feedback">
+            <div *ngIf="f.price.errors.required">Precio es obligatorio</div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <!-- Quantity -->
+        <div class="form-group col-12 mb-2">
+          <label class="form-label">Cantidad</label>
+          <input type="text" formControlName="quantity" class="form-control"
+            [ngClass]="{ 'is-invalid': submitted && f.quantity.errors }" />
+          <div *ngIf="submitted && f.quantity.errors" class="invalid-feedback">
+            <div *ngIf="f.quantity.errors.required">Cantidad es obligatorio</div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 text-center">
+          <button type="submit" class="btn btn-sm btn-primary" [disabled]="product.image == ''">Guardar</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

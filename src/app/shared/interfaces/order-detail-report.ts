@@ -1,0 +1,15 @@
+export interface OrderDetailReport {
+    id: number,
+    orderNumber: string,
+    createdAt: string,
+    names: string,
+    userName: string,
+    paymentName: string,
+    statusId: number,
+    statusName: string,
+    totalPurchase: number,
+    shippingCost: number,
+    currentDate?: string,
+    minutesDiff?: string,
+    color?: string,
+}
