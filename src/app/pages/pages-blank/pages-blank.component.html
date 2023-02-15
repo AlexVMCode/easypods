@@ -1,32 +1,22 @@
 <main id="main" class="main">
-    <div class="pagetitle">
-       <h1>Blank Page</h1>
-       <nav>
-          <ol class="breadcrumb">
-             <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
-             <li class="breadcrumb-item">Pages</li>
-             <li class="breadcrumb-item active">Blank</li>
-          </ol>
-       </nav>
-    </div>
-    <section class="section">
-       <div class="row">
-          <div class="col-lg-6">
-             <div class="card">
-                <div class="card-body">
-                   <h5 class="card-title">Example Card</h5>
-                   <p>This is an examle page with no contrnt. You can use it as a starter for your custom pages.</p>
-                </div>
-             </div>
-          </div>
-          <div class="col-lg-6">
-             <div class="card">
-                <div class="card-body">
-                   <h5 class="card-title">Example Card</h5>
-                   <p>This is an examle page with no contrnt. You can use it as a starter for your custom pages.</p>
-                </div>
-             </div>
-          </div>
-       </div>
-    </section>
- </main>
+   <!-- Input Audio -->
+   <div *ngIf="showInputAudio" class="input-group">
+      <div class="input-group-prepend" (click)="showInputAudio = false">
+         <span class="input-group-text">
+            <i class="bi bi-trash"></i>
+         </span>
+      </div>
+      <input type="text" class="form-control" readonly [value]="audioRecordedTime" *ngIf="recordingStarted">
+      <audio *ngIf="!recordingStarted && audioBlobURL" controls style="width: 75%;">
+         <source [src]="audioBlobURL" type="audio/webm">
+      </audio>
+      <div class="input-group-append">
+         <button class="btn btn-outline-primary" type="button" (click)="stopRecording()" *ngIf="recordingStarted">
+            <i class="bi bi-pause"></i>
+         </button>
+         <button class="btn btn-outline-primary" type="button" (click)="sendAudio()" *ngIf="!recordingStarted">
+            <i class="bi bi-send"></i>
+         </button>
+      </div>
+   </div>
+</main>
